@@ -6,4 +6,4 @@ FROM nodered/node-red-docker
 
 expose 1880
 
-CMD ["npm", "start", "--", "--userDir", "$HOME/data"]
+CMD ["npm", "start", "--", "--userDir", "./data"]
