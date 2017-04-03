@@ -25,4 +25,6 @@ EXPOSE 1880
 # Environment variable holding file path for flows configuration
 ENV FLOWS=flows.json
 
-CMD ["npm", "start", "--", "--userDir", "/usr/src/node-red/data"]
+RUN npm start -- --userDir /usr/src/node-red/data
+
+CMD ["/bin/bash"]
