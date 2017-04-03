@@ -1,9 +1,28 @@
-FROM nodered/node-red-docker
+FROM node:6
 
-#run npm install node-red-contrib-redis
+# Home directory for Node-RED application source code.
+RUN mkdir -p /usr/src/node-red
 
-#run npm install node-red-contrib-soapserver
+# User data directory, contains flows, config and nodes.
+RUN mkdir /usr/src/node-red/data
 
-expose 1880
+WORKDIR /usr/src/node-red
 
-CMD ["npm", "start", "--", "--userDir", "./data"]
+# Add node-red user so we aren't running as root.
+RUN useradd --home-dir /usr/src/node-red --no-create-home node-red \
+    && chown -R node-red:node-red /usr/src/node-red/data \
+    && chown -R node-red:node-red /usr/src/node-red
+
+USER node-red
+
+# package.json contains Node-RED NPM module and node dependencies
+COPY package.json /usr/src/node-red/
+RUN npm install
+
+# User configuration directory volume
+EXPOSE 1880
+
+# Environment variable holding file path for flows configuration
+ENV FLOWS=flows.json
+
+CMD ["npm", "start", "--", "--userDir", "/usr/src/node-red/data"]
