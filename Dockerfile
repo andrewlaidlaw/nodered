@@ -19,12 +19,12 @@ USER node-red
 COPY package.json /usr/src/node-red/
 RUN npm install
 
+RUN chmod o+rwX -R /usr
+
 # User configuration directory volume
 EXPOSE 1880
 
 # Environment variable holding file path for flows configuration
 ENV FLOWS=flows.json
 
-RUN npm start -- --userDir /usr/src/node-red/data &
-
-CMD ["/bin/bash"]
+CMD ["npm", "start", "--", "--userDir", "/usr/src/node-red/data"]
