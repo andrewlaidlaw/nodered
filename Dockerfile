@@ -1,4 +1,4 @@
-FROM node:6
+FROM node:13
 # Home directory for Node-RED application source code.
 RUN mkdir -p /usr/src/node-red
 RUN chmod -R 777 /usr/src/node-red
